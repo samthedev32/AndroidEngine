@@ -3,23 +3,25 @@
 
 cmake_minimum_required(VERSION 3.22.1)
 
-project("androidengine")
+find_package(game-activity REQUIRED CONFIG)
 
-# Creates your game shared library. The name must be the same as the
-# one used for loading in your Kotlin/Java or AndroidManifest.txt files.
-add_library(androidengine SHARED
+# Source Files
+set(SOURCES
         main.cpp
+
+        src/AndroidEngine.cpp
+        src/Asset.cpp
+        src/log.cpp
+
         AndroidOut.cpp
         Renderer.cpp
         Shader.cpp
         TextureAsset.cpp
-        Utility.cpp)
+        Utility.cpp
+        )
 
-# Searches for a package provided by the game activity dependency
-find_package(game-activity REQUIRED CONFIG)
-
-# Configure libraries CMake uses to link your target library.
-target_link_libraries(androidengine
+# Libraries
+set(LIBRARIES
         # The game activity
         game-activity::game-activity
 
@@ -30,3 +32,9 @@ target_link_libraries(androidengine
         jnigraphics
         android
         log)
+
+# Project
+project(AndroidEngine)
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
+target_link_libraries(${PROJECT_NAME} ${LIBRARIES})
+target_include_directories(${PROJECT_NAME} PUBLIC src/include)

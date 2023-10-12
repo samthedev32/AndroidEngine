@@ -1,5 +1,7 @@
 #include <jni.h>
 
+#include <AndroidEngine.h>
+
 #include "AndroidOut.h"
 #include "Renderer.h"
 
